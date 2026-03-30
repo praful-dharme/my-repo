@@ -1,0 +1,399 @@
+create EKS cluster:
+
+# Learn-AWS-EKS
+
+## Step 01: Create EKS Cluster using eksctl
+
+```bash
+# Create Cluster
+eksctl create cluster --name=uatvcas \
+                      --region=ap-south-1 \
+                      --zones=ap-south-1a,ap-south-1b \
+                      --without-nodegroup                  
+```
+
+```bash
+# Get List of clusters
+eksctl get cluster
+```
+
+## Step 02: Create & Associate IAM OIDC Provider for our EKS Cluster
+* To enable and use AWS IAM roles for Kubernetes service accounts on our EKS cluster, we must create & associate OIDC identity provider.
+* To do so using eksctl we can use the below command.
+
+```bash
+# Template
+eksctl utils associate-iam-oidc-provider \
+    --region ap-south-1 \
+    --cluster uatvcas \
+    --approve
+
+# Replace with region & cluster name
+eksctl utils associate-iam-oidc-provider \
+    --region ap-south-1 \
+    --cluster uatvcas \
+    --approve
+```
+
+## Step 03: Create EC2 Keypair
+* Create a new EC2 Keypair with name as amc-demo
+* This keypair we will use it when creating the EKS NodeGroup.
+* This will help us to login to the EKS Worker Nodes using Terminal.
+
+## Step 04: Create Node Group with additional Add-Ons in Public Subnets
+These add-ons will create the respective IAM policies for us automatically within our Node Group role.
+
+```bash
+# Create Public Node Group   
+eksctl create nodegroup --cluster=uatvcas \
+                       --region=ap-south-1 \
+                       --name=uatvcas-ng-public1 \
+                       --node-type=t3.small \
+                       --nodes=2 \
+                       --nodes-min=2 \
+                       --nodes-max=2 \
+                       --node-volume-size=8 \
+                       --ssh-access \
+                       --ssh-public-key=Demo key \
+                       --managed \
+                       --asg-access \
+                       --external-dns-access \
+                       --full-ecr-access \
+                       --appmesh-access \
+                       --alb-ingress-access
+```
+
+## Step 05: Verify Cluster & Nodes
+
+```bash
+# List EKS clusters
+eksctl get cluster
+
+# List NodeGroups in a cluster
+eksctl get nodegroup --cluster=uatvcas
+
+# List Nodes in current kubernetes cluster
+kubectl get nodes -o wide
+
+# Our kubectl context should be automatically changed to new cluster
+kubectl config view --minify
+```
+
+## Step 06: Delete Node Group
+
+```bash
+# List EKS Clusters
+eksctl get clusters
+
+# Capture Node Group name
+eksctl get nodegroup --cluster=<clusterName>
+eksctl get nodegroup --cluster=uatvcas
+
+# Delete Node Group
+eksctl delete nodegroup --cluster=<clusterName> --name=<nodegroupName>
+eksctl delete nodegroup --cluster=uatvcas --name=uatvcas-ng-public
+```
+
+## Step 07: Delete Cluster
+```bash
+# Delete Cluster
+eksctl delete cluster <clusterName>
+eksctl delete cluster uatvcas
+```
+===============================================================
+jumphost History
+
+ubuntu@ip-172-31-26-151:~/k8s-app$ history
+    1  ls
+    2  aws --version
+    3  sudo apt install awscli
+    4  sudo apt update
+    5  sudo apt install -y unzip curl
+    6  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o awscliv2.zip
+    7  uname -a
+    8  unzip awscliv2.zip
+    9  sudo ./aws/install
+   10  aws --version
+   11  docker --v
+   12  vi install.sh
+   13  chmod +x install.sh
+   14  ./install.sh
+   15  docker --v
+   16  docker --version
+   17  ls
+   18  pwd
+   19  ls
+   20  mkdir docker
+   21  cd docker/
+   22  ls
+   23  wget https://github.com/lakovmartin/kubernetes-tutorial.git
+   24  ls
+   25  rm -rf kubernetes-tutorial.git
+   26  git clone https://github.com/lakovmartin/kubernetes-tutorial.git
+   27  ls
+   28  cd kubernetes-tutorial/
+   29  ls
+   30  cd docker/
+   31  ls
+   32  cd app/
+   33  ls
+   34  cat Dockerfile
+   35  Docker Build -t vcas-img
+   36  bocker build -t vcas-img
+   37  docker build -t vcas-img
+   38  docker build -t vcas-img .
+   39  sudo docker build -t vcas-img .
+   40  docker images
+   41  sudo docker images
+   42  docker run -itd -p 3000:3000
+   43  docker run -itd -p 3000:3000 /bin/bash
+   44  sudo docker run -itd -p 3000:3000 /bin/bash
+   45  sudo docker run -itd -p 3000:3000 --bin/bash
+   46  sudo docker run -itd -p 3000:3000 vcas-img:latest
+   47  aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 161337061973.dkr.ecr.ap-south-1.amazonaws.com
+   48  docker build -t uatvcasrepo .
+   49  sudo docker build -t uatvcasrepo .
+   50  ls
+   51  sudo docker tag uatvcasrepo:latest 161337061973.dkr.ecr.ap-south-1.amazonaws.com/uatvcasrepo:latest
+   52  sudo docker push 161337061973.dkr.ecr.ap-south-1.amazonaws.com/uatvcasrepo:latest
+   53  ubuntu@ip-172-31-26-151:~/docker/kubernetes-tutorial/docker/app$ sudo docker push 161337061973.dkr.ecr.ap-south-1.amazonaws.com/uatvcasrepo:latest
+   54  The push refers to repository [161337061973.dkr.ecr.ap-south-1.amazonaws.com/uatvcasrepo]
+   55  df9b9388f04a: Waiting
+   56  1f583af6473b: Waiting
+   57  6541568a08f6: Waiting
+   58  8cabc815338a: Waiting
+   59  27a164598075: Waiting
+   60  7939e601ee5e: Waiting
+   61  3bf6d7380205: Waiting
+   62  34f733bbee98: Waiting
+   63  31f0fb9de071: Waiting
+   64  push access denied, repository does not exist or may require authorization: authorization failed: no basic auth credentials
+   65  ubuntu@ip-172-31-26-151:~/docker/kubernetes-tutorial/docker/app$ sudo docker push 161337061973.dkr.ecr.ap-south-1.amazonaws.com/uatvcasrepo:latest
+   66  ls
+   67  aws ecr describe-repositories   --repository-names uatvcasrepo   --region ap-south-1
+   68  sudo docker push 161337061973.dkr.ecr.ap-south-1.amazonaws.com/uatvcasrepo:latest
+   69  aws sts get-caller-identity
+   70  newgrp docker
+   71  ls
+   72  sudo docker push 161337061973.dkr.ecr.ap-south-1.amazonaws.com/uatvcasrepo:latest
+   73  sudo usermod -aG docker ubuntu
+   74  docker ps
+   75  aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 161337061973.dkr.ecr.ap-south-1.amazonaws.com
+   76  docker push 161337061973.dkr.ecr.ap-south-1.amazonaws.com/uatvcasrepo:latest
+   77  ls
+   78  eksctl
+   79  curl -sLO https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_Linux_amd64.tar.gz
+   80  tar -xzf eksctl_Linux_amd64.tar.gz
+   81  sudo mv eksctl /usr/local/bin/
+   82  sudo chmod +x /usr/local/bin/eksctl
+   83  eksctl version
+   84  aws sts get-caller-identity
+   85  eksctl create cluster --name=uatvcas                       --region=ap-south-1                       --zones=ap-south-1a,ap-south-1b                       --without-nodegroup
+   86  reboot
+   87  sudo reboot
+   88  eksctl create cluster --name=uatvcas                       --region=ap-south-1                       --zones=ap-south-1a,ap-south-1b                       --without-nodegroup
+   89  aws sts get-caller-identity
+   90  docker images
+   91  docker ps
+   92  docker run -itd uatvcasrepo:latest
+   93  docker ps
+   94  docker images
+   95  docker run -itd -p 3001 vcas-img:latest
+   96  docker ps
+   97  docker run -itd -p 3002 vcas-img:latest --bin/bash
+   98  history
+   99  # Create Cluster
+  100  eksctl create cluster --name=amcdemo                       --region=us-east-1                       --zones=us-east-1a,us-east-1b                       --without-nodegroup
+  101  eksctl create cluster --name=uatvcas                       --region=ap-south-1                       --zones=ap-south-1a,ap-south-1b                       --without-nodegroup
+  102  kubectl version --client
+  103  curl -LO https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl
+  104  chmod +x kubectl
+  105  sudo mv kubectl /usr/local/bin/
+  106  kubectl version --client
+  107  eksctl create nodegroup --cluster uatvcas --region ap-south-1 --name uatvcas-ng-public1 --node-type t3.small --nodes 2 --nodes-min 2 --nodes-max 2 --node-volume-size 8 --managed --ssh-access --ssh-public-key="Demo key" --asg-access --external-dns-access --full-ecr-access --appmesh-access
+  108  eksctl create nodegroup --cluster uatvcas --region ap-south-1 --name uatvcas-ng-public1 --node-type t3.small --nodes 2 --nodes-min 2 --nodes-max 2 --node-volume-size 8 --managed --ssh-access --ssh-public-key=eks-key --asg-access --external-dns-access --full-ecr-access --appmesh-access
+  109  eksctl get nodegroup --cluster uatvcas --region ap-south-1
+  110  eksctl create nodegroup --cluster uatvcas --region ap-south-1 --name uatvcas-ng-public1 --node-type t3.small --nodes 2 --nodes-min 2 --nodes-max 2 --node-volume-size 8 --managed --ssh-access --ssh-public-key=eks-key --asg-access --external-dns-access --full-ecr-access --appmesh-access
+  111  eksctl create nodegroup --cluster uatvcas --region ap-south-1 --name uatvcas-ng-public1 --node-type t3.small --nodes 2 --nodes-min 2 --nodes-max 2 --node-volume-size 20 --managed --ssh-access --ssh-public-key=eks-key --asg-access --external-dns-access --full-ecr-access --appmesh-access
+  112  eksctl get nodegroup --cluster uatvcas --region ap-south-1
+  113  kubectl get --All
+  114  kubectl get all
+  115  kubectl get pods
+  116  kubectl get pods | grep kube-system
+  117  eksctl get cluster
+  118  aws config
+  119  aws configure
+  120  eksctl get cluster
+  121  kubectl get nodes -o wide
+  122  ls
+  123  aws ecr describe-repositories --region ap-south-1 --query "repositories[].repositoryUri"
+  124  aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 161337061973.dkr.ecr.ap-south-1.amazonaws.com
+  125  docker images
+  126  cd docker/kubernetes-tutorial/
+  127  ls
+  128  cd kubernetes/
+  129  ls
+  130  cat manifest.yaml
+  131  cd ..
+  132  ls
+  133  cd docker/
+  134  ls
+  135  cd app/
+  136  ls
+  137  cd src/
+  138  ls
+  139  cat index.js
+  140  ls
+  141  cd routes/
+  142  ls
+  143  cd ..
+  144  ls
+  145  cd ..
+  146  ls
+  147  cd spec/
+  148  ls
+  149  cd ..
+  150  ls
+  151  cat package.json
+  152  cd ..
+  153  ls
+  154  cat commands.md
+  155  ls
+  156  cd app/
+  157  ls
+  158  cat Dockerfile
+  159  ls
+  160  cd src/
+  161  ls
+  162  cat index.js
+  163  ls
+  164  cd static/
+  165  ls
+  166  cat index.html
+  167  ls
+  168  cd css/font-awesome/
+  169  ls
+  170  cd ..
+  171  ls
+  172  grep -R "Happy Days" .
+  173  cd ..
+  174  ls
+  175  cd ..
+  176  ls
+  177  cd ..
+  178  ls
+  179  cd src/
+  180  ls
+  181  cat index.js
+  182  ls
+  183  cd static/
+  184  ls
+  185  cat index.html
+  186  ls
+  187  cd js/
+  188  ls
+  189  vi app.js
+  190  cat app.js
+  191  ls
+  192  vi app.js
+  193  cd ../../..
+  194  ls
+  195  docker images
+  196  history
+  197  docker build vcas-img1 .
+  198  sudo docker build -t vcas-img1 .
+  199  ls
+  200  docker images
+  201  docker rmi 161337061973.dkr.ecr.ap-south-1.amazonaws.com/uatvcasrepo:latest
+  202  docker images
+  203  docker rmi uatvcasrepo:latest
+  204  docker ps -a
+  205  docker container delete adoring_elion
+  206  docker container rm  adoring_elion
+  207  docker container stop  adoring_elion
+  208  docker container rm  adoring_elion
+  209  docker rmi uatvcasrepo:latest
+  210  docker images
+  211  ls
+  212  docker iamges
+  213  docker images
+  214  docker run -itd -p 3001:3000 vcas-img1:latest --bin/bash
+  215  docker ps -a
+  216  docker ps
+  217  docker run -itd -p 3002:3000 vcas-img1:latest
+  218  docker images
+  219  docker tag vcas-img:latest 161337061973.dkr.ecr.ap-south-1.amazonaws.com/uatvcasrepo:v1
+  220  docker tag vcas-img1:latest 161337061973.dkr.ecr.ap-south-1.amazonaws.com/uatvcasrepo:v2
+  221  docker images
+  222  aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 161337061973.dkr.ecr.ap-south-1.amazonaws.com
+  223  docker push
+  224  docker push 161337061973.dkr.ecr.ap-south-1.amazonaws.com/uatvcasrepo:v1
+  225  docker push 161337061973.dkr.ecr.ap-south-1.amazonaws.com/uatvcasrepo:v2
+  226  kubectl get namespaces
+  227  ls
+  228  cd
+  229  ls
+  230  mkdir k8s-app
+  231  ls
+  232  cd k8s-app/
+  233  ls
+  234  vi namespace.yaml
+  235  kubectl apply -f namespace.yaml
+  236  vi blue.yaml
+  237  vi green.yaml
+  238  vi service.yaml
+  239  vi ingress.yaml
+  240  ls
+  241  kubectl apply -f blue.yaml green.yaml ingress.yaml service.yaml
+  242  kubectl apply -f blue.yaml -f green.yaml -f service.yaml -f ingress.yaml
+  243  kubectl get all
+  244  kubectl get ns
+  245  kubectl get svc
+  246  kubectl get svc -n vcas
+  247  kubectl get svc -n uatvcas
+  248  kubectl get pods -A
+  249  kubectl describe ingress uatvcas-ingress -n uatvcas
+  250  kubectl get pods -n kube-system | grep load-balancer
+  251  vi ingress.yaml
+  252  kubectl get ing -n uatvcas
+  253  kubectl apply -f ingress.yaml
+  254  kubectl get ing -n uatvcas
+  255  eksctl utils associate-iam-oidc-provider --cluster uatvcas --region ap-south-1 --approve
+  256  ls
+  257  curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy.json
+  258  ls
+  259  aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-document file://iam_policy.json
+  260  eksctl create iamserviceaccount --cluster uatvcas --region ap-south-1 --namespace kube-system --name aws-load-balancer-controller --attach-policy-arn arn:aws:iam::161337061973:policy/AWSLoadBalancerControllerIAMPolicy --approve
+  261  ls
+  262  helm repo add eks https://aws.github.io/eks-charts
+  263  helm repo update
+  264  curl -fsSL https://get.helm.sh/helm-v3.14.4-linux-amd64.tar.gz -o helm.tar.gz
+  265  tar -zxvf helm.tar.gz
+  266  sudo mv linux-amd64/helm /usr/local/bin/helm
+  267  helm version
+  268  helm repo add eks https://aws.github.io/eks-charts
+  269  helm repo update
+  270  helm install aws-load-balancer-controller eks/aws-load-balancer-controller -n kube-system --set clusterName=uatvcas --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller
+  271  kubectl get ingress -n uatvcas
+  272  kubectl get pods -n kube-system | grep load-balancer
+  273  aws-load-balancer-controller   Running
+  274  kubectl describe ingress uatvcas-ingress -n uatvcas
+  275  kubectl patch svc uatvcas-svc -n uatvcas -p '{"spec":{"selector":{"app":"uatvcas","version":"green"}}}'
+  276  kubectl get pods -n uatvcas
+  277  ls
+  278  kubectl get pods -n vcas
+  279  kubectl get pods -n uatvcas
+  280  kubectl delete pods uatvcas-green-b9cff46-7ghcs uatvcas-green-b9cff46-mfrtx
+  281  kubectl delete pods uatvcas-green-b9cff46-7ghcs uatvcas-green-b9cff46-mfrtx -n uatvcas
+  282  kubectl get pods -n uatvcas
+  283  kubectl describe svc uatvcas-svc -n uatvcas
+  284  kubectl get pods -o wide -n vcas
+  285  kubectl get pods -o wide -n uatvcas
+  286  ls
+  287  vi service.yaml
+  288  kubectl apply -f service.yaml
+  289  kubectl get svc -n uatvcas
+  290  kubectl patch svc uatvcas-svc -n uatvcas -p '{"spec":{"selector":{"app":"uatvcas","version":"green"}}}'
+  291  ls
+  292  history
+ubuntu@ip-172-31-26-151:~/k8s-app$
