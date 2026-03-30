@@ -1,0 +1,117 @@
+===========
+Kubernetes
+============
+
+Explain K8S Archecture. components of Master/ control pland and working node.
+what is Pod, Node, Cluster.
+What is Deployment Replicaset Replication controller, Daemon set, Stateful set and difference.
+What are the services in K8s.
+what is Ingress, Ingress controller, 
+what is config map and secret.
+what is HPA and VPA.
+what are the deployment strategies in K8s.(rolling update recreate, rollback,)
+what is tent toleration, node-affenity.
+what is resource Quota and Limitation in k8s.
+Name three typical Pod error causes and how they can be fixed.
+what are the errors occurs in pod lifecycle. (OOM kill, Node pressure, memory pressure, pod Eviction, ImagepullBackoff,)
+CrashLoopBackoff (container keeps crashing), ImagePullBackOff (cannot pull the image), Pending (pod is not yet scheduled), FailedScheduling (pod couldn't be scheduled)
+How to run a POD on a particular node?
+How do you safely upgrade a Kubernetes cluster?
+what are static pod , init containers, sidecar containers,
+if schedular fails then how manually create pod.
+Apiserver ETCD, Controller manager, Schedular, Kubelet, kubeproxy, container engine run as a process or pod?
+What are Labels and Selectors in Kubernetes?
+What are Persistent Volumes (PVs) and Persistent Volume Claims (PVCs)?
+What is Role-Based Access Control (RBAC) in Kubernetes?
+How does Kubernetes autoscaling work?
+How do you manage Kubernetes resource quotas in multi-tenant environments?
+Cluster resources are exhausted, causing new Pods to remain in a pending state.
+What advantages does Kubernetes have?
+i have created image push in ecr my repsistory is privet, i mention that image in my deployment file, so how my deployment file pull that image
+=>( to node we have given IAM role of AmazonEC2ContainerRegistryReadOnly)
+where ECR credentials are getting stored? ( on local server)
+
+
+=============
+Terraform  ||
+=============
+What is terraform and how it works.
+what are terraform lifecycle.
+How to secure terraform statefile.
+what is terraform taint. (it will mark resource taint and next apply it will recreate resource)
+what are modules.
+what is the tree structure of your project.
+How you do roll back in Terraform.(directly not possible , revert changes from repo and apply again)
+where do u store credential or secure credentiial in terraform.(hashicorp valt , secreate Manager)
+how to avoide confilct in terraform.
+how to lock state file and how that mechanism work.
+what are variables in terraform, and how they call in main.tf file.
+what are terraform providers and provisioners.(which provide infra, remote exic local exic)
+What are Terraform workspaces, and when should you use them?
+Explain the use of count and for_each in Terraform.
+How will you upgrade plugins on Terraform? (Run ‘terraform init’ with ‘-upgrade’ option)
+Difference between terraform import and terraform refresh. 
+if u create resource by terraform and then manually did changes, how will that changes comes under terraform state,
+--> firstly we do terraform refresh and then we do terraform apply. ( refresh will check changes and add in state file)--
+what is datablock and what is local in terraform.
+
+=============
+Jenkins  ||
+=============
+What is CICD.
+how secure credentials in Jenkins.
+What type of plugins you used and how to install plugins.
+how to run jobs in parallel and series.
+what is multbranch pipeline.
+what are the types of pipeline job in Jenkins.
+what are the paramaterise Jobs in Jenkins.
+Explain Jenkins Multibranch Pipeline?
+What are the ways to trigger a Jenkins Job/Pipeline?
+What is a Jenkins Shared Library and how it is useful?
+How Jenkins jobs can be Triggered/Stopped/Controlled programmatically?
+How do you manage plugins in Jenkins?
+How do you add a new user to Jenkins?
+How to integrate Github in Jenkins.
+What are some common Jenkins plugins you have worked with?
+How can you view and manage Jenkins job logs?
+How do you set environment variables in Jenkins?
+How can you run a Jenkins job on a specific node?
+Explain the difference between Declarative and Scripted Pipelines in Jenkins.
+What are Jenkins' "Post-build Actions" and how do they differ from build steps?
+How can you schedule Jenkins jobs to run periodically?(build periodicaly, poll SCM, Webhooks)
+How can you automatically trigger Jenkins jobs when a commit is made to a repository?
+How can you back up and restore Jenkins configurations and jobs?
+How to revert/ Rollback changes if Pipeline fails.
+
+
+=============
+Ansible  ||
+=============
+What is ansible and how it work.
+How to roll back in Ansible is any package want to remove.(Directly rollback is not possible in Ansible.)
+what is role in Ansible.
+How Ansible master connect with slave. and how they communicate.
+how to secure files in Ansible.
+What is modules and what are types of modules in Ansible? 
+How do you handle errors and failures in Ansible playbooks? (strategies like ignore_errors, failed_when, and block/rescue/always.) 
+what is inventovery file and where is located.
+waht is ansible vault, how to encrypt and decrypt the file.
+what is ansible gallexy and tower.
+What are the features of Ansible?
+What is Ansible Inventory and its types?(Static inventory, Dynamic inventory)
+What Is The Ad-hoc Command In Ansible, And When Is It Typically Used?
+what is idempotency.
+
+=============
+Docker ||
+=============
+Difference between Docker and K8s,
+what is hyperviser and what are the types of hypervisor(bare matel and hosted)
+what is vertulization.
+what is Docker file and how to create docker file. what are layers in docker file
+how to reduce docker image file.
+What is multi docker file.
+what is image dangling in DOcker.
+what are the docker networking in Docker.
+how to cache the docker image.
+what are the commands to check the docker ips( docker stat, docker info, 
