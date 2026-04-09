@@ -35,6 +35,10 @@ i have 2 nodes in which my 4 pods running on 2 node node are in 1a and 1b now i 
 
 How HPA will get to know about scaling? => hpa read matrics like cpu_util and scale and metric server will give this info to HPA that cpu increase scale the pod.
 
+i have 2 node 1 is general purpose and other is GPU i have 5 ms in which 3 need to run on general purpose and 2 need to run on gpu how is it possible?
+=> "In EKS, I create separate node groups for general and GPU workloads. I label nodes and use nodeSelector or nodeAffinity to schedule pods accordingly. GPU nodes are tainted, and only GPU workloads with proper tolerations and resource requests are allowed to run there."
+=>"I would label nodes based on type like general and GPU, then use nodeSelector or nodeAffinity in deployments to schedule pods accordingly. For GPU workloads, I would also request GPU resources and apply taints on GPU nodes with tolerations so that only GPU workloads are scheduled there."
+
 =============
 Terraform  ||
 =============
