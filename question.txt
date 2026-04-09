@@ -30,7 +30,10 @@ What advantages does Kubernetes have?
 i have created image push in ecr my repsistory is privet, i mention that image in my deployment file, so how my deployment file pull that image
 =>( to node we have given IAM role of AmazonEC2ContainerRegistryReadOnly)
 where ECR credentials are getting stored? ( on local server)
+suppose i have 1a,1b,1chow to restect pod placement in 1c zone? -> tent-toleration, node-selector,Nodeaffinity and in annotation use topology too restect pod placement.
+i have 2 nodes in which my 4 pods running on 2 node node are in 1a and 1b now i have created pvc in 1a ,i have 1 pvc which attach to deployment and pvc is in 1a, now my question is will it be accessiable from pods on 1b?  => "If PVC is backed by EBS, it is AZ-specific. So if volume is created in 1a, pods running in 1b cannot access it. To solve this, we either restrict pod scheduling to the same AZ or use EFS for multi-AZ shared storage."
 
+How HPA will get to know about scaling? => hpa read matrics like cpu_util and scale and metric server will give this info to HPA that cpu increase scale the pod.
 
 =============
 Terraform  ||
@@ -54,6 +57,29 @@ Difference between terraform import and terraform refresh.
 if u create resource by terraform and then manually did changes, how will that changes comes under terraform state,
 --> firstly we do terraform refresh and then we do terraform apply. ( refresh will check changes and add in state file)--
 what is datablock and what is local in terraform.
+what is dynamic block in terraform?
+
+1. You already have EC2, VPC, and Security Groups created manually in AWS. Now you want to manage them using Terraform. How will you proceed?”
+2. Multiple engineers work on Terraform. How do you manage Terraform state safely?”
+3. Someone ran terraform apply in production by mistake. How do you prevent this?
+4. Someone manually changed a resource in AWS console. How do you detect and fix drift?”
+5. Terraform apply fails in the middle. What is the impact and how do you recover?”
+6. How do you manage dev, qa, and prod using Terraform?
+7. How do you manage secrets in Terraform
+8. How does Terraform know which resource to create first?”
+8. What are all Terraform components?
+9. Difference between count and for_each
+10. When do you use merge, concat, toset?
+11. Passing subnets for RDS / EC2 / EKS / LB without hardcoding
+❓ “In dev environment, how do you pass subnet IDs without hardcoding?”
+12. VPC creation – what gets created automatically? (VERY IMPORTANT)
+❓ “You wrote Terraform code for VPC, subnets, IGW, NAT, endpoints. After apply, will AWS create anything automatically?”
+13. What is mean by terraform taint ?
+What are dynamic blocks and when do you use them?
+14. What does Terraform refresh do?”
+What is terraform fmt and why is it important
+15. Have you used lifecycle rules?
+How do you protect critical resources from accidental destroy?
 
 =============
 Jenkins  ||
@@ -106,6 +132,7 @@ what is idempotency.
 Docker ||
 =============
 Difference between Docker and K8s,
+Difference between containerization and vertulization,
 what is hyperviser and what are the types of hypervisor(bare matel and hosted)
 what is vertulization.
 what is Docker file and how to create docker file. what are layers in docker file
