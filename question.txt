@@ -39,6 +39,9 @@ i have 2 node 1 is general purpose and other is GPU i have 5 ms in which 3 need 
 => "In EKS, I create separate node groups for general and GPU workloads. I label nodes and use nodeSelector or nodeAffinity to schedule pods accordingly. GPU nodes are tainted, and only GPU workloads with proper tolerations and resource requests are allowed to run there."
 =>"I would label nodes based on type like general and GPU, then use nodeSelector or nodeAffinity in deployments to schedule pods accordingly. For GPU workloads, I would also request GPU resources and apply taints on GPU nodes with tolerations so that only GPU workloads are scheduled there."
 
+what is the need of isolation of deployment ingress service secrets configmap files in k8s? why cant we go with 1 file for 1 ms?
+==> In Kubernetes, we can keep Deployment, Service, Ingress, ConfigMap, and Secret in one YAML file, but in production they are usually separated because each         resource has a different purpose, lifecycle, security requirement, and ownership. Separate files make updates, troubleshooting, CI/CD, rollback, security          management, and environment-specific configurations easier and more manageable.
+
 =============
 Terraform  ||
 =============
