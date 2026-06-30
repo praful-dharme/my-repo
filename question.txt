@@ -39,8 +39,7 @@ i have 2 node 1 is general purpose and other is GPU i have 5 ms in which 3 need 
 => "In EKS, I create separate node groups for general and GPU workloads. I label nodes and use nodeSelector or nodeAffinity to schedule pods accordingly. GPU nodes are tainted, and only GPU workloads with proper tolerations and resource requests are allowed to run there."
 =>"I would label nodes based on type like general and GPU, then use nodeSelector or nodeAffinity in deployments to schedule pods accordingly. For GPU workloads, I would also request GPU resources and apply taints on GPU nodes with tolerations so that only GPU workloads are scheduled there."
 
-what is the need of isolation of deployment ingress service secrets configmap files in k8s? why cant we go with 1 file for 1 ms?
-==> In Kubernetes, we can keep Deployment, Service, Ingress, ConfigMap, and Secret in one YAML file, but in production they are usually separated because each         resource has a different purpose, lifecycle, security requirement, and ownership. Separate files make updates, troubleshooting, CI/CD, rollback, security          management, and environment-specific configurations easier and more manageable.
+i have 2 namespace dev stage and pod from dev should communicate with pod in stage how? ( stage-service.stage.svc.cluster.local, <service-name>.<namespace>.svc.cluster.local, curl http://stage-service.stage.svc.cluster.local:80)
 
 =============
 Terraform  ||
@@ -149,3 +148,19 @@ what is image dangling in DOcker.
 what are the docker networking in Docker.
 how to cache the docker image.
 what are the commands to check the docker ips( docker stat, docker info, 
+
+
+==============
+AWS
+==============
+
+1.what is presigned URL and what is its use. ( it is in s3 to give access for object to download or upload within the time)
+2.how to retrive data  from glasher deep archieve? ( select the object in glacer > Action > retrive> time period like 2 hr 24 hr etc> within thta time it will get retrived in general purpose)
+3.
+
+
+
+
+
+
+
