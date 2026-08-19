@@ -114,6 +114,7 @@ How can you schedule Jenkins jobs to run periodically?(build periodicaly, poll S
 How can you automatically trigger Jenkins jobs when a commit is made to a repository?
 How can you back up and restore Jenkins configurations and jobs?
 How to revert/ Rollback changes if Pipeline fails.
+if job failed in failed in 3rd stage bcz of syntax now you fix syntax now u want to again start jon from same stage how would start( select build and in action start from last fail or Restart from Stage.)
 
 
 =============
