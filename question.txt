@@ -157,6 +157,10 @@ AWS
 1.what is presigned URL and what is its use. ( it is in s3 to give access for object to download or upload within the time)
 2.how to retrive data  from glasher deep archieve? ( select the object in glacer > Action > retrive> time period like 2 hr 24 hr etc> within thta time it will get retrived in general purpose)
 3. How my Cloud Front will access my s3 ( we will create OAC origin access control policy where resource ARN will be CF)
+4. Suppose i have 3 vpc MAin 10.10.0.0/16 Dev10.50.0.0/16 and Stage 10.50.0.0/16 ca main do vpc peering with Dev and Stage
+and if request send by main to 10.50.3.51 which vpc will received request?
+5. if during VPC peering CIDR overlap how you can resolve this ?
+6.what is VPC Endpoint and what are the types of that(Gateway(free)(used for s3 dynamodb) and Interface(cost occur used for ec2 database))
 
 =======================
 EKS
@@ -181,6 +185,32 @@ How do you monitor ECS/EKS applications?
 What is IAM role for service account (IRSA) in EKS?
 How do you handle rolling updates in ECS/EKS?
 What are best practices for running containers in AWS?
+
+======================
+Genpact
+
+1. How to resolve merge conflicts in github	
+2.What all services you have used in Aws
+3. How to troubleshoot Jenkins if the pipeline failed
+4. Difference between select() and withColumn()
+5. What are the tools you have used in the deployment process 
+6. Which version control system you are using
+7. ⁠How to troubleshoot server when all services are down and server is in hung state	
+8.explain flow of your project 
+9. how to find the running process in Linux via commands
+10 how to create a docker image :command
+11 difference between kubernetes and Eks 
+12. def fun(x, lst=[]):
+    lst.append(x)
+    return lst
+print(fun(1))
+print(fun(2))
+print(fun(3, []))
+Print(fun(4))
+What is the output of above code
+13. Explain terraform command
+14. If you found OOM (out of Memory) error what you will do to resolve
+15. how to encrypt the EBS volume of existing Prod Server.
 
 
 
