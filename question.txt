@@ -156,7 +156,7 @@ AWS
 
 1.what is presigned URL and what is its use. ( it is in s3 to give access for object to download or upload within the time)
 2.how to retrive data  from glasher deep archieve? ( select the object in glacer > Action > retrive> time period like 2 hr 24 hr etc> within thta time it will get retrived in general purpose)
-3.
+3. How my Cloud Front will access my s3 ( we will create OAC origin access control policy where resource ARN will be CF)
 
 =======================
 EKS
