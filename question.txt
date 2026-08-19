@@ -158,6 +158,30 @@ AWS
 2.how to retrive data  from glasher deep archieve? ( select the object in glacer > Action > retrive> time period like 2 hr 24 hr etc> within thta time it will get retrived in general purpose)
 3.
 
+=======================
+EKS
+=====================
+What is ECS and EKS in AWS?
+What is the difference between ECS and EKS?
+What is Fargate in AWS?
+What are clusters in ECS/EKS?
+What are tasks and services in ECS?
+What are pods and nodes in EKS?
+What is the difference between EC2 launch type and Fargate launch type?
+How does service discovery work in ECS/EKS?
+How do you deploy applications in ECS?
+How do you deploy applications in EKS?
+What is a task definition in ECS?
+What is a container definition?
+How do you scale applications in ECS/EKS?
+How do you expose applications to the internet in EKS?
+What is Ingress in Kubernetes (EKS)?
+How do you troubleshoot container failures in ECS/EKS?
+How do you monitor ECS/EKS applications?
+What is IAM role for service account (IRSA) in EKS?
+How do you handle rolling updates in ECS/EKS?
+What are best practices for running containers in AWS?
+
 
 
 
